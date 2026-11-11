@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -73,7 +74,7 @@
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span class="text-gray-300">TELEMETRY: SECURE</span>
                 </div>
-                <button onclick="triggerNotification('AI Core', 'Scanning live weapon telemetry and match packets...')" class="bg-[#ffb703]/10 hover:bg-[#ffb703]/20 text-[#ffb703] border border-[#ffb703]/30 px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition">
+                <button id="sys-diag-btn" class="bg-[#ffb703]/10 hover:bg-[#ffb703]/20 text-[#ffb703] border border-[#ffb703]/30 px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition">
                     System Diagnostic
                 </button>
             </div>
@@ -87,28 +88,28 @@
         <aside class="lg:col-span-1 space-y-4">
             <div class="hud-panel p-4">
                 <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 font-mono">COMMAND DIRECTORY</h3>
-                <nav class="space-y-1.5">
-                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full text-left px-3.5 py-3 text-sm font-semibold tracking-wide bg-[#ffb703]/10 text-[#ffb703] border-l-2 border-[#ffb703] transition flex items-center justify-between">
+                <nav class="space-y-1.5" id="sidebar-nav">
+                    <button data-tab="dashboard" id="nav-dashboard" class="nav-btn w-full text-left px-3.5 py-3 text-sm font-semibold tracking-wide bg-[#ffb703]/10 text-[#ffb703] border-l-2 border-[#ffb703] transition flex items-center justify-between">
                         <span>01. Tactical Dashboard</span>
                         <span class="text-[10px] font-mono opacity-70">MAIN</span>
                     </button>
-                    <button onclick="switchTab('matches')" id="nav-matches" class="w-full text-left px-3.5 py-3 text-sm font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-[#151c28] transition flex items-center justify-between">
+                    <button data-tab="matches" id="nav-matches" class="nav-btn w-full text-left px-3.5 py-3 text-sm font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-[#151c28] transition flex items-center justify-between">
                         <span>02. Match Logs & Analytics</span>
                         <span class="text-[10px] font-mono opacity-70">AAR</span>
                     </button>
-                    <button onclick="switchTab('youtube')" id="nav-youtube" class="w-full text-left px-3.5 py-3 text-sm font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-[#151c28] transition flex items-center justify-between">
+                    <button data-tab="youtube" id="nav-youtube" class="nav-btn w-full text-left px-3.5 py-3 text-sm font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-[#151c28] transition flex items-center justify-between">
                         <span>03. YouTube & Video Feed</span>
                         <span class="text-[10px] font-mono opacity-70">SYNC</span>
                     </button>
-                    <button onclick="switchTab('controller')" id="nav-controller" class="w-full text-left px-3.5 py-3 text-sm font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-[#151c28] transition flex items-center justify-between">
+                    <button data-tab="controller" id="nav-controller" class="nav-btn w-full text-left px-3.5 py-3 text-sm font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-[#151c28] transition flex items-center justify-between">
                         <span>04. Controller Tuning</span>
                         <span class="text-[10px] font-mono opacity-70">SENS</span>
                     </button>
-                    <button onclick="switchTab('loadouts')" id="nav-loadouts" class="w-full text-left px-3.5 py-3 text-sm font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-[#151c28] transition flex items-center justify-between">
+                    <button data-tab="loadouts" id="nav-loadouts" class="nav-btn w-full text-left px-3.5 py-3 text-sm font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-[#151c28] transition flex items-center justify-between">
                         <span>05. Gunsmith Visualizer</span>
                         <span class="text-[10px] font-mono opacity-70">ARMORY</span>
                     </button>
-                    <button onclick="switchTab('settings')" id="nav-settings" class="w-full text-left px-3.5 py-3 text-sm font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-[#151c28] transition flex items-center justify-between">
+                    <button data-tab="settings" id="nav-settings" class="nav-btn w-full text-left px-3.5 py-3 text-sm font-semibold tracking-wide text-gray-400 hover:text-white hover:bg-[#151c28] transition flex items-center justify-between">
                         <span>06. API Configuration</span>
                         <span class="text-[10px] font-mono opacity-70">CONFIG</span>
                     </button>
@@ -129,7 +130,7 @@
         <section class="lg:col-span-3 space-y-6">
 
             <!-- TAB 1: DASHBOARD -->
-            <div id="tab-dashboard" class="space-y-6">
+            <div id="tab-dashboard" class="tab-content space-y-6">
                 <div class="hud-panel p-6 bg-gradient-to-r from-[#0f131a] to-[#151c28]">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
@@ -137,7 +138,7 @@
                             <h2 class="text-2xl sm:text-3xl font-bold tracking-wide mt-1 text-white">OPERATOR COMMAND CENTER</h2>
                             <p class="text-sm text-gray-400 mt-1">AI coaching neural network is actively monitoring your gameplay loop.</p>
                         </div>
-                        <button onclick="switchTab('matches')" class="bg-[#ffb703] hover:bg-[#e0a102] text-black px-5 py-2.5 font-bold text-xs uppercase tracking-wider transition glow-gold">
+                        <button data-tab-target="matches" class="goto-matches-btn bg-[#ffb703] hover:bg-[#e0a102] text-black px-5 py-2.5 font-bold text-xs uppercase tracking-wider transition glow-gold">
                             + Log New Match
                         </button>
                     </div>
@@ -180,10 +181,10 @@
             </div>
 
             <!-- TAB 2: MATCH LOGS -->
-            <div id="tab-matches" class="space-y-6 hidden">
+            <div id="tab-matches" class="tab-content space-y-6 hidden">
                 <div class="hud-panel p-6">
                     <h2 class="text-xl font-bold mb-4">LOG A NEW MATCH</h2>
-                    <form id="match-form" onsubmit="handleMatchSubmit(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <form id="match-form" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-mono text-gray-400 mb-1">MAP NAME</label>
                             <input type="text" id="match-map" required placeholder="e.g. Terminal, Highrise, Rust" class="w-full bg-[#07090c] border border-[#1e2634] p-2.5 text-sm text-white focus:border-[#ffb703] focus:outline-none">
@@ -245,14 +246,14 @@
             </div>
 
             <!-- TAB 3: YOUTUBE & VIDEO FEED -->
-            <div id="tab-youtube" class="space-y-6 hidden">
+            <div id="tab-youtube" class="tab-content space-y-6 hidden">
                 <div class="hud-panel p-6 space-y-4">
                     <div class="flex justify-between items-center">
                         <div>
                             <h2 class="text-xl font-bold">YOUTUBE PLAYLIST TELEMETRY</h2>
                             <p class="text-sm text-gray-400">Automated queue syncing with your PlayStation clips playlist.</p>
                         </div>
-                        <button onclick="triggerNotification('YouTube Sync', 'Playlist scanned: No unanalyzed clips found.')" class="bg-[#ffb703] hover:bg-[#e0a102] text-black px-4 py-2 font-bold text-xs uppercase tracking-wider transition">
+                        <button id="sync-playlist-btn" class="bg-[#ffb703] hover:bg-[#e0a102] text-black px-4 py-2 font-bold text-xs uppercase tracking-wider transition">
                             Sync Playlist
                         </button>
                     </div>
@@ -279,7 +280,7 @@
                     <p class="text-sm text-gray-400">Paste your YouTube gameplay clip URL below for immediate AI frame analysis.</p>
                     <div class="flex gap-2">
                         <input type="text" id="manual-clip-url" placeholder="https://www.youtube.com/watch?v=..." class="flex-1 bg-[#07090c] border border-[#1e2634] p-2.5 text-sm text-white focus:border-[#ffb703] focus:outline-none">
-                        <button onclick="submitManualClip()" class="bg-[#ffb703] hover:bg-[#e0a102] text-black px-5 py-2.5 font-bold text-xs uppercase tracking-wider transition glow-gold">
+                        <button id="analyze-clip-btn" class="bg-[#ffb703] hover:bg-[#e0a102] text-black px-5 py-2.5 font-bold text-xs uppercase tracking-wider transition glow-gold">
                             Analyze Clip
                         </button>
                     </div>
@@ -287,11 +288,12 @@
             </div>
 
             <!-- TAB 4: CONTROLLER TUNING -->
-            <div id="tab-controller" class="space-y-6 hidden">
+            <div id="tab-controller" class="tab-content space-y-6 hidden">
                 <div class="hud-panel p-6 space-y-4">
                     <h2 class="text-xl font-bold">CONTROLLER PRECISION TUNING</h2>
                     <p class="text-sm text-gray-400">AI-optimized curves for PlayStation DualSense controllers.</p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="bg-[#07090c] p-4 border border-[#1e2634]">
                             <span class="text-xs font-mono text-gray-400">LEFT STICK DEADZONE</span>
-                            <div class="text-2xl 
+                            <div class="text-2xl font-bold text-white mt-1">5 (Min) / 99 (Max)</div>
+                            <p class="text-xs text-emerald-400 mt-1">Optimal for respon
